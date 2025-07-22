@@ -1,6 +1,20 @@
 import React, { useState } from "react";
+
+const CRYPTO_OPTIONS = [
+  { value: "ETH", name: "Ethereum (ETH)" },
+  { value: "BTC", name: "Bitcoin (BTC)" },
+  { value: "ICP", name: "Internet Computer (ICP)" },
+  { value: "USDT", name: "Tether (USDT)" },
+  { value: "BNB", name: "Binance Coin (BNB)" },
+  { value: "SOL", name: "Solana (SOL)" },
+  { value: "MATIC", name: "Polygon (MATIC)" },
+  { value: "DOGE", name: "Dogecoin (DOGE)" },
+];
+
 function Donate() {
   const [crypto, setCrypto] = useState("ETH");
+  const selectedCrypto = CRYPTO_OPTIONS.find(c => c.value === crypto);
+
   return (
     <div className="page-content active">
       <div className="container">
@@ -18,27 +32,26 @@ function Donate() {
               <select
                 id="crypto"
                 value={crypto}
-                onChange={(e) => setCrypto(e.target.value)}
+                onChange={e => setCrypto(e.target.value)}
                 required
               >
-                <option value="ETH">Ethereum (ETH)</option>
-                <option value="BTC">Bitcoin (BTC)</option>
-                <option value="ICP">Internet Computer (ICP)</option>
-                <option value="USDT">Tether (USDT)</option>
-                <option value="BNB">Binance Coin (BNB)</option>
-                <option value="SOL">Solana (SOL)</option>
-                <option value="MATIC">Polygon (MATIC)</option>
-                <option value="DOGE">Dogecoin (DOGE)</option>
+                {CRYPTO_OPTIONS.map(c => (
+                  <option value={c.value} key={c.value}>{c.name}</option>
+                ))}
               </select>
             </div>
             <div className="form-group">
               <label htmlFor="amount">
-                Donation Amount ({crypto})
+                Donation Amount ({selectedCrypto ? selectedCrypto.value : ""})
               </label>
               <input
                 type="number"
                 id="amount"
-                placeholder={`Enter amount in ${crypto}`}
+                placeholder={
+                  selectedCrypto
+                    ? `Enter amount in ${selectedCrypto.value}`
+                    : "Enter the amount"
+                }
                 min="0.001"
                 step="0.001"
                 required
