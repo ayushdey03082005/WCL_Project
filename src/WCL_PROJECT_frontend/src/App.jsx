@@ -1,30 +1,38 @@
-import { useState } from 'react';
-import { WCL_PROJECT_backend } from 'declarations/WCL_PROJECT_backend';
+import React, { useState } from "react";
+import Navigation from "./components/Navigation";
+import Home from "./sections/Home";
+import Donate from "./sections/Donate";
+import Projects from "./sections/Projects";
+import Reports from "./sections/Reports";
+import Dashboard from "./sections/Dashboard";
+import Leaderboard from "./sections/Leaderboard";
+import Admin from "./sections/Admin";
+import About from "./sections/About";
+import FAQ from "./sections/FAQ";
+import Terms from "./sections/Terms";
+import "./App.css";
 
 function App() {
-  const [greeting, setGreeting] = useState('');
+  const [page, setPage] = useState("home");
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    WCL_PROJECT_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
+  const PAGES = {
+    home: <Home />,
+    donate: <Donate />,
+    projects: <Projects />,
+    reports: <Reports />,
+    dashboard: <Dashboard />,
+    leaderboard: <Leaderboard />,
+    admin: <Admin />,
+    about: <About />,
+    faq: <FAQ />,
+    terms: <Terms />,
+  };
 
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <>
+      <Navigation currentPage={page} setPage={setPage} />
+      {PAGES[page]}
+    </>
   );
 }
 
